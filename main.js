@@ -6,28 +6,40 @@ var Library = function() {
         //which simply adds new books to the library's private books array.
     }
     var checkOutBook = function(book) {
-        if (!book.getAttribute('checkedOut'))  {
+        var fakeBook = 0; //tracks if the book does not exist in the library
             for (var i=0; i<books.length;i++) {
-                if (book.getAttribute('title') === books[i].getAttribute('title')) {
-             book.setAttribute('checkedOut', true);  
-                }
+                if (book.getAttribute('title') === books[i].getAttribute('title') && books[i].getAttribute('checkedOut') === false) {
+                    book.setAttribute('checkedOut', true);  
+                    fakeBook = 1;
+                } else if (book.getAttribute('title') === books[i].getAttribute('title') && books[i].getAttribute('checkedOut') === true) {
+                    console.log(book.getAttribute('title') + ' is already checked out');
+                    fakeBook = 1;
+                    }
             }
-        }
-                //which takes a book object as an argument and changes it's checkedOut attribute to true, but ONLY if that book exists in the library. 
+            if (fakeBook === 0) { //if the book was not found in the library, logs error msg
+                console.log(book.getAttribute('title') + ' does not exist in the library');
+            }
+        //which takes a book object as an argument and changes it's checkedOut attribute to true, but ONLY if that book exists in the library. 
         //Otherwise, just console log some kind of error. --
     }
 
     
     var returnBook = function(book) {
-        for (var i=0; i<books.length;i++) {
-            if (book.getAttribute('title') === books[i].getAttribute('title')) {
+        var fakeBook = 0; //tracks if the book does not exist in the library
+        for (var i=0; i<books.length;i++) {           
+            if (book.getAttribute('title') === books[i].getAttribute('title') && books[i].getAttribute('checkedOut') === true) {
                 book.setAttribute('checkedOut', false);
-            }else {
-                console.log(book.getAttribute('title') + " is not in the library.");
+                fakeBook = 1;
+            } else if (book.getAttribute('title') === books[i].getAttribute('title') && books[i].getAttribute('checkedOut') === false) {
+                console.log(book.getAttribute('title') + ' has not been checked out');
+                fakeBook = 1;
+                } 
+        }
+        if (fakeBook === 0) {  //if the book was not found in the library, logs error msg
+            console.log(book.getAttribute('title') + " does not exist in the library.");
             }
-    }
             //returnBook which takes a book object as an argument and changes it's checkedOut attribute to false, but ONLY if that book exists in the library. 
-        //Otherwise, just console log some kind of error.
+            //Otherwise, just console log some kind of error.
 }
 
     return {
@@ -46,7 +58,7 @@ var Book = function(title, author) {
    }; 
    var getAttribute = function(attribute) {
        if (attributes[attribute] != undefined) {
-       return attributes[attribute];
+         return attributes[attribute];
        }
        //which should take one argument, the name of one of the book's attributes and return it, 
        //but only if that attribute is a key on the Book module's attributes object
@@ -64,3 +76,12 @@ var Book = function(title, author) {
         setAttribute: setAttribute
    };
 };
+var library = Library();
+var book1 = Book('A_book1', 'An_author1');
+var book2 = Book('A_book2', 'An_author2');
+var book3 = Book('A_book3', 'An_author3');
+library.addBook(book1);
+library.addBook(book2);
+library.addBook(book3);
+library.checkOutBook(book1);
+library.returnBook(book1);
