@@ -5,7 +5,7 @@ var Library = function() {
         books.push(book);
         //which simply adds new books to the library's private books array.
     }
-    var checkOutBook = function(book) {
+    var checkOutBook = function(book) { 
         var fakeBook = 0; //tracks if the book does not exist in the library
             for (var i=0; i<books.length;i++) {
                 if (book.getAttribute('title') === books[i].getAttribute('title') && books[i].getAttribute('checkedOut') === false) {
@@ -53,7 +53,7 @@ var Book = function(title, author) {
    var attributes = {
        title: title,
        author: author,
-       checkedOut: false
+       checkedOut: null
 
    }; 
    var getAttribute = function(attribute) {
@@ -85,3 +85,8 @@ library.addBook(book2);
 library.addBook(book3);
 library.checkOutBook(book1);
 library.returnBook(book1);
+
+//sean notes
+//consider reducing the repeat logic into functions
+//fix indentation issues
+//be careful using === with object strings
